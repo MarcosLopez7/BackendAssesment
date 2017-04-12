@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -28,4 +30,4 @@ class LoginView(APIView):
                 return Response("Usuario no activado, contacte con el administrador", status=status.HTTP_401_UNAUTHORIZED)
 
         else:
-            return Response("Username o contraseña incorrectos", status=status.HTTP_401_UNAUTHORIZED)
+            return Response('Username o contraseña incorrectos', status=status.HTTP_401_UNAUTHORIZED)
