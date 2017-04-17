@@ -15,7 +15,7 @@ class LoginView(APIView):
         username = self.request.data['username']
         password = self.request.data['password']
 
-        user = authenticate(username, password)
+        user = authenticate(username=username, password=password)
 
         if user is not None:
 
@@ -27,7 +27,7 @@ class LoginView(APIView):
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
             else:
-                return Response("Usuario no activado, contacte con el administrador", status=status.HTTP_401_UNAUTHORIZED)
+                return Response('invalid', status=status.HTTP_401_UNAUTHORIZED)
 
         else:
-            return Response('Username o contraseña incorrectos', status=status.HTTP_401_UNAUTHORIZED)
+            return Response('invalid', status=status.HTTP_401_UNAUTHORIZED)
