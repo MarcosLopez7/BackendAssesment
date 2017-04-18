@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.shortcuts import render
+from django.contrib.auth import login, logout, authenticate
 
 from rest_framework.views import APIView
 from rest_framework import status
@@ -6,10 +8,8 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
-from django.shortcuts import render
-from django.contrib.auth import login, logout, authenticate
 
-from .serializers import UserSerializer, EmployeeSerializer
+from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer
 from .models import Employee, Store
 
 # Create your views here.
@@ -42,3 +42,9 @@ class AdminView(ListAPIView):
     #permission_classes = (IsAdminUser,)
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
+class CreateEmployeeStoreView(ListAPIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+    queryset = Store.objects.all()
+    serializer_class = EmployeeStoreSerializer
