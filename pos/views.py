@@ -9,7 +9,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 
-from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer
+from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer
 from .models import Employee, Store
 
 # Create your views here.
@@ -48,3 +48,26 @@ class CreateEmployeeStoreView(ListAPIView):
     # permission_classes = (IsAdminUser,)
     queryset = Store.objects.all()
     serializer_class = EmployeeStoreSerializer
+
+class CreateUserEmployeeView(APIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+
+    def post(self, request):
+        serializer = CreateUserSerializer(data=request.data)
+
+        if serializer.is_valid():
+            instance = serializer.save()
+            instance.save()
+
+            store_location = self.request.data['store']
+            store = Store.objects.get(location=store_location)
+
+            employee = Employee()
+            employee.user = instance
+            employee.store = store
+            employee.save()
+
+            return Response('created', status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
