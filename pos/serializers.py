@@ -35,6 +35,6 @@ class CreateUserSerializer(ModelSerializer):
         user_qs = User.objects.filter(username=username)
 
         if len(user_qs) > 0:
-            raise ValidationError("Este usuario ya está registrado")
+            raise ValidationError("Este usuario ya ha sido registrado")
 
         return username
