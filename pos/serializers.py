@@ -1,6 +1,6 @@
 from .models import Employee, Store
 from django.contrib.auth.models import User
-from rest_framework.serializers import ModelSerializer, ValidationError
+from rest_framework.serializers import ModelSerializer, ValidationError, Serializer
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -16,6 +16,11 @@ class EmployeeUserRetrieveSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'is_staff', 'is_active'] 
+
+class UserEditSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['pk', 'username', 'password', 'first_name', 'last_name', 'is_staff', 'is_active'] 
 
 class EmployeeStoreSerializer(ModelSerializer):
     class Meta:
@@ -49,5 +54,14 @@ class EmployeeRetrieveSerializer(ModelSerializer):
    store = EmployeeStoreSerializer() 
 
    class Meta:
-        model = Employee
-        fields = ['pk', 'user', 'store']
+       model = Employee
+       fields = ['pk', 'user', 'store']
+
+
+class EmployeeEditSerializer(Serializer):
+   user = UserEditSerializer()
+   store = EmployeeStoreSerializer() 
+   stores = EmployeeStoreSerializer(many=True) 
+   class Meta:
+       model = Employee
+       fields = ['pk', 'user', 'store', 'stores']
