@@ -84,15 +84,13 @@ class EmployeeToEditView(APIView):
     # authentication_classes = (SessionAuthentication, BasicAuthentication)
     # permission_classes = (IsAdminUser,)
     def get(self, request, pk):
-        instance = Employee.objects.get(pk=pk)
-        stores = Store.objects.all().exclude(location__exact=instance.store.location)
+        instance = Employee.objects.filter(pk=pk)
+        stores = Store.objects.all().exclude(location__exact=instance[0].store.location)
         store_serializer = EmployeeStoreSerializer(stores, many=True)
-        serializer = EmployeeEditSerializer(instance, many=False, data={'pk': instance.pk, 'user': instance.user, 'store': instance.store, 'stores': stores})
-        
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-        else:
-            return Response('no pifa', status=status.HTTP_400_BAD_REQUEST)
+        serializer = EmployeeEditSerializer(instance, many=True)
+        response = serializer.data + store_serializer.data        
+
+        return Response(response, status=status.HTTP_202_ACCEPTED)
 
 
 class EditUserEmployeeView(APIView):
@@ -107,14 +105,14 @@ class EditUserEmployeeView(APIView):
             store_location = self.request.data['store']
             store = Store.objects.get(location=store_location)
 
-            employee = Employee()
-            employee.user = instance
-            employee.store = store
-            employee.save()
+            instance_employee.user = serializer.save()
+            instance_employee.store = store
+            instance_employee.save()
 
             return Response('updated', status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE) 
+
 
 class DeleteUserEmployeeView(APIView):
     # authentication_classes = (SessionAuthentication, BasicAuthentication)

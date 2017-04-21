@@ -61,7 +61,6 @@ class EmployeeRetrieveSerializer(ModelSerializer):
 class EmployeeEditSerializer(Serializer):
    user = UserEditSerializer()
    store = EmployeeStoreSerializer() 
-   stores = EmployeeStoreSerializer(many=True) 
    class Meta:
        model = Employee
-       fields = ['pk', 'user', 'store', 'stores']
+       fields = ['pk', 'user', 'store']
