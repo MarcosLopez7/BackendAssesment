@@ -25,7 +25,7 @@ SECRET_KEY = '0h!@y=x0!vw6r!t&ep)2$^z5zj!#jnq9@o-y-z27f$gu95$jbr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['104.131.134.15']
 
 
 # Application definition
@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'django',
         'USER': 'django',
-        'PASSWORD': '49nw82lasidn1933bcdsfo12onv',
+        'PASSWORD': 'maricosimequiereshackear',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -112,20 +112,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 # Allow Django from all hosts. This snippet is installed from
 # /var/lib/digitalocean/allow_hosts.py
 
-import os
-import netifaces
-
-# Find out what the IP addresses are at run time
-# This is necessary because otherwise Gunicorn will reject the connections
-def ip_addresses():
-    ip_list = []
-    for interface in netifaces.interfaces():
-        addrs = netifaces.ifaddresses(interface)
-        for x in (netifaces.AF_INET, netifaces.AF_INET6):
-            if x in addrs:
-                ip_list.append(addrs[x][0]['addr'])
-    return ip_list
-
-# Discover our IP address
-ALLOWED_HOSTS = ip_addresses()
 

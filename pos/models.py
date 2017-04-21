@@ -8,12 +8,15 @@ class Store(models.Model):
     coordinate_x = models.DecimalField(max_digits=40, decimal_places=20)
     coordinate_y = models.DecimalField(max_digits=40, decimal_places=20)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.location
 
 class Employee(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='employee')
     store = models.ForeignKey(Store)
 
-    def __unicode__(self):
+    class Meta:
+        ordering = ['pk', ]
+
+    def __str__(self):
         return "{0} {1}".format(self.user.first_name, self.user.last_name)

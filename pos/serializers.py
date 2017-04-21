@@ -12,6 +12,11 @@ class EmployeeUserSerializer(ModelSerializer):
         model = User
         fields = ['pk', 'first_name', 'last_name', 'is_staff'] 
 
+class EmployeeUserRetrieveSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'is_staff', 'is_active'] 
+
 class EmployeeStoreSerializer(ModelSerializer):
     class Meta:
         model = Store
@@ -34,7 +39,15 @@ class CreateUserSerializer(ModelSerializer):
         username = data['username']
         user_qs = User.objects.filter(username=username)
 
-        if len(user_qs) > 0:
+        if user_qs.exists():
             raise ValidationError("Este usuario ya ha sido registrado")
 
-        return username
+        return data
+
+class EmployeeRetrieveSerializer(ModelSerializer):
+   user = EmployeeUserRetrieveSerializer()  
+   store = EmployeeStoreSerializer() 
+
+   class Meta:
+        model = Employee
+        fields = ['pk', 'user', 'store']
