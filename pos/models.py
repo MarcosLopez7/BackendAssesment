@@ -69,18 +69,12 @@ class OrderProduct(models.Model):
     def __str__(self):
         return "id {3}: {0} in order {1}: {2} units".format(self.product.name, str(self.order), self.quantity, self.pk)
 
-class Client(models.Model):
-    gender = models.CharField(max_length=80)
-    age = models.IntegerField()
-
-    def __str__(self):
-        return "id:{0}, Gender:{1}, Age:{2}".format(self.pk, self.gender, self.age)
-
 class Sale(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     store = models.ForeignKey(Store)
-    client = models.ForeignKey(Client, null=True)
+    client_gender = models.CharField(max_length=80, null=True)
+    client_age = models.IntegerField(null = True)
 
     def __str__(self):
         return "id {0}: Sale for {1} in store {2}".format(self.pk, self.amount, str(self.store))

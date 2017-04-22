@@ -9,8 +9,8 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 
-from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer, CreateStoreProductSerializer, ProductSerializer, CreateProductSerializer, CreateSaleSerializer, CreateSaleProductSerializer
-from .models import Employee, Store, Order, Product, OrderProduct, StoreProduct, Sale, SaleProduct, Client
+from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer, CreateStoreProductSerializer, ProductSerializer, CreateProductSerializer, CreateSaleSerializer, CreateSaleProductSerializer, StoreProductSerializer
+from .models import Employee, Store, Order, Product, OrderProduct, StoreProduct, Sale, SaleProduct
 
 from decimal import Decimal
 # Create your views here.
@@ -29,9 +29,12 @@ class LoginView(APIView):
 
                 login(request, user)
                 serializer = UserSerializer(user)
+                response = serializer.data
+                if not user.is_superuser:
+                    #serializer['store'] = user.employee.store
+                    response['store'] = user.employee.store.pk
 
-                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-
+                return Response(response, status=status.HTTP_202_ACCEPTED)
             else:
                 return Response('invalid', status=status.HTTP_401_UNAUTHORIZED)
 
@@ -347,8 +350,14 @@ class CreateSaleView(APIView):
     def post(self, request):
         serializer = CreateSaleSerializer(data={
             'store': self.request.data['store'],
-            'amount': 0.00
+            'amount': 0.00,
         })
+
+        if 'gender' in self.request.data:
+            serializer['client_gender'] = self.request.data['gender']
+        if 'age' in self.request.data:
+            serializer['client_age'] = self.request.data['age']
+
         if serializer.is_valid():
             sale = serializer.save()
         else:
@@ -377,3 +386,20 @@ class CreateSaleView(APIView):
             return Response('created', status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+class RetrieveInventoryView(APIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+    def get(self, request, pk_store, barcode):
+        product = Product.objects.filter(barcode=barcode)
+        if product.exists():
+            store_product = StoreProduct.objects.filter(product=product[0], store=pk_store)
+            if store_product.exists():
+                store_product_serializer = StoreProductSerializer(store_product[0])
+                response = store_product_serializer.data
+                return Response(response, status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response('not found', status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return Response('not found', status=status.HTTP_404_NOT_FOUND)

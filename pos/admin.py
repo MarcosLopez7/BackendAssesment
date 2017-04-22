@@ -7,7 +7,6 @@ from .models import (
     Product,
     StoreProduct,
     OrderProduct,
-    Client,
     Sale,
     SaleProduct
 )
@@ -19,6 +18,5 @@ admin.site.register(Supplier)
 admin.site.register(Product)
 admin.site.register(StoreProduct)
 admin.site.register(OrderProduct)
-admin.site.register(Client)
 admin.site.register(Sale)
 admin.site.register(SaleProduct)
