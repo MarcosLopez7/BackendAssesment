@@ -18,5 +18,5 @@ urlpatterns = [
     url('^orders/$', RetrieveOrdersView.as_view(), name='orders'),
     url('^orders/(?P<pk>\d+)$', RetrieveOrderView.as_view(), name='show-order'),
     url('^orders/new/$', CreateOrderView.as_view(), name='create-order'),
-    url('^inventory/create$', CreateStoreProductView.as_view(), name='create-inventory'),
+    url('^inventory/create/$', CreateStoreProductView.as_view(), name='create-inventory'),
 ]

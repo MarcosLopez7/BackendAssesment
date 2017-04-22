@@ -57,7 +57,7 @@ class StoreProduct(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return "{0} in store {1}: {2} units".format(self.product.name, self.store.location, self.quantity)
+        return "id {3}: {0} in store {1}: {2} units".format(self.product.name, self.store.location, self.quantity, self.pk)
 
 class OrderProduct(models.Model):
     product = models.ForeignKey(Product)
@@ -67,4 +67,4 @@ class OrderProduct(models.Model):
     expiration_date = models.DateTimeField()
 
     def __str__(self):
-        return "{0} in order {1}: {2} units".format(self.product.name, str(self.order), self.quantity)
+        return "id {3}: {0} in order {1}: {2} units".format(self.product.name, str(self.order), self.quantity, self.pk)

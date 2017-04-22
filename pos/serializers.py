@@ -101,3 +101,15 @@ class CreateStoreProductSerializer(ModelSerializer):
     class Meta:
         model = StoreProduct
         fields = ['store', 'product', 'quantity']
+
+class ProductSerializer(ModelSerializer):
+    #store_id = PrimaryKeyRelatedField(queryset=Store.objects.all())
+    class Meta:
+        model = Product
+        fields = ['pk', 'barcode', 'name', 'store_price', 'supplier_price', 'image', 'supplier', 'type']
+        
+class CreateProductSerializer(ModelSerializer):
+    #store_id = PrimaryKeyRelatedField(queryset=Store.objects.all())
+    class Meta:
+        model = Product
+        fields = ['barcode', 'name', 'store_price', 'supplier_price', 'image', 'supplier', 'type']

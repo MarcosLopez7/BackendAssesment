@@ -252,3 +252,26 @@ class CreateStoreProductView(APIView):
             return Response('created', status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+class RetireveProductsView(APIView):
+    def get(self, request):
+        products = Product.objects.all()
+        ProductSerializer = ProductSerializer(orders, many=True)
+        response = order_serializer.data
+
+        return Response(response, status=status.HTTP_202_ACCEPTED)
+
+class CreateProductView(APIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+
+    def post(self, request):
+        serializer = CreateStoreProductSerializer(data=self.request.data)
+
+        if serializer.is_valid():
+            instance = serializer.save()
+            instance.save()
+
+            return Response('created', status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
