@@ -9,7 +9,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 
-from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer, CreateStoreProductSerializer
+from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer, CreateStoreProductSerializer, ProductSerializer, CreateProductSerializer
 from .models import Employee, Store, Order, Product, OrderProduct, StoreProduct
 
 # Create your views here.
@@ -214,6 +214,33 @@ class CreateOrderView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+class EditOrderView(APIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+    def put(self, request, pk):
+
+        instance = Order.objects.get(pk=pk)
+        serializer = OrderSerializer(data=self.request.data, instance=instance)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response('updated', status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+class DeleteOrderView(APIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+    def delete(self, request, pk):
+        order = Order.objects.get(pk=pk)
+        # orders = Order.objects.get(store=store)
+        # products = StoreProduct.objects.get(store=store)
+        # employees = Employee.objects.get(store=store)
+        order.delete()
+
+        return Response('deleted', status=status.HTTP_202_ACCEPTED)
+
 
 class CreateStoreProductView(APIView):
     # authentication_classes = (SessionAuthentication, BasicAuthentication)
@@ -253,13 +280,21 @@ class CreateStoreProductView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-class RetireveProductsView(APIView):
+class RetrieveProductsView(APIView):
     def get(self, request):
         products = Product.objects.all()
-        ProductSerializer = ProductSerializer(orders, many=True)
-        response = order_serializer.data
+        product_serializer = ProductSerializer(products, many=True)
+        response = product_serializer.data
 
         return Response(response, status=status.HTTP_202_ACCEPTED)
+
+class RetrieveProductView(RetrieveAPIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+
 
 class CreateProductView(APIView):
     # authentication_classes = (SessionAuthentication, BasicAuthentication)
@@ -275,3 +310,30 @@ class CreateProductView(APIView):
             return Response('created', status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+class EditProductView(APIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+    def put(self, request, pk):
+
+        instance = Product.objects.get(pk=pk)
+        serializer = ProductSerializer(data=self.request.data, instance=instance)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response('updated', status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+class DeleteProductView(APIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+    def delete(self, request, pk):
+        product = Product.objects.get(pk=pk)
+        # orders = Order.objects.get(store=store)
+        # products = StoreProduct.objects.get(store=store)
+        # employees = Employee.objects.get(store=store)
+        product.delete()
+
+        return Response('deleted', status=status.HTTP_202_ACCEPTED)

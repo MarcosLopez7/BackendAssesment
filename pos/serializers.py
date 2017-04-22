@@ -80,11 +80,6 @@ class OrderSerializer(ModelSerializer):
         model = Order
         fields = ['pk', 'date_hour', 'store']
 
-class OrderSerializer(ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ['pk', 'barcode', 'name', 'store_price', 'supplier_price', 'image', 'supplier', 'type']
-
 class CreateOrderSerializer(ModelSerializer):
     #store_id = PrimaryKeyRelatedField(queryset=Store.objects.all())
     class Meta:
@@ -107,7 +102,7 @@ class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = ['pk', 'barcode', 'name', 'store_price', 'supplier_price', 'image', 'supplier', 'type']
-        
+
 class CreateProductSerializer(ModelSerializer):
     #store_id = PrimaryKeyRelatedField(queryset=Store.objects.all())
     class Meta:
