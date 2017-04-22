@@ -26,15 +26,21 @@ class Order(models.Model):
     date_hour = models.DateTimeField()
     store = models.ForeignKey(Store)
 
+    def __str__(self):
+        return "Order to {0} at {1}".format(self.store.location, self.date_hour)
+
 class Supplier(models.Model):
     name = models.CharField(max_length=80)
+
+    def __str__(self):
+        return self.name
 
 def product_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return 'product_{0}'.format(instance.barcode)
 
 class Product(models.Model):
-    barcode = models.IntegerField(unique=True)
+    barcode = models.CharField(unique=True, max_length=80)
     name = models.CharField(max_length=80)
     store_price = models.DecimalField(max_digits=20, decimal_places=2)
     supplier_price = models.DecimalField(max_digits=20, decimal_places=2)
@@ -42,10 +48,16 @@ class Product(models.Model):
     supplier = models.ForeignKey(Supplier)
     type = models.CharField(max_length=80)
 
+    def __str__(self):
+        return self.name
+
 class StoreProduct(models.Model):
     product = models.ForeignKey(Product)
     store = models.ForeignKey(Store)
     quantity = models.IntegerField()
+
+    def __str__(self):
+        return "{0} in store {1}: {2} units".format(self.product.name, self.store.location, self.quantity)
 
 class OrderProduct(models.Model):
     product = models.ForeignKey(Product)
@@ -53,3 +65,6 @@ class OrderProduct(models.Model):
     delivery_date = models.DateTimeField()
     order = models.ForeignKey(Order)
     expiration_date = models.DateTimeField()
+
+    def __str__(self):
+        return "{0} in order {1}: {2} units".format(self.product.name, str(self.order), self.quantity)

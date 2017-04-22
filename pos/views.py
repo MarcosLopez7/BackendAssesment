@@ -231,6 +231,7 @@ class CreateStoreProductView(APIView):
             'quantity': 1
         })
 
+
         order_product = OrderProduct.objects.filter(product=product, order=order)
         #order = order_product.order.id
 
@@ -238,9 +239,15 @@ class CreateStoreProductView(APIView):
             return Response('not found', status=status.HTTP_404_NOT_FOUND)
 
         if serializer.is_valid():
-            order_product = serializer.save()
+            exists = StoreProduct.objects.filter(product=product, store=self.request.data['store']).first()
+            if exists:
+                exists.quantity+=1
+                exists.save(update_fields=['quantity'])
+            else:
+                order_product = serializer.save()
             #order_product.product = product
-            order_product.save()
+
+            #order_product.save()
 
             return Response('created', status=status.HTTP_201_CREATED)
         else:
