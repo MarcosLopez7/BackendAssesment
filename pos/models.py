@@ -38,7 +38,7 @@ class Product(models.Model):
     name = models.CharField(max_length=80)
     store_price = models.DecimalField(max_digits=20, decimal_places=2)
     supplier_price = models.DecimalField(max_digits=20, decimal_places=2)
-    image = models.FileField(upload_to=product_directory_path)
+    image = models.FileField(upload_to=product_directory_path, null=True)
     supplier = models.ForeignKey(Supplier)
     type = models.CharField(max_length=80)
 
