@@ -23,11 +23,11 @@ class Employee(models.Model):
         return "{0} {1}".format(self.user.first_name, self.user.last_name)
 
 class Order(models.Model):
-    date_hour = models.DateTimeField
+    date_hour = models.DateTimeField()
     store = models.ForeignKey(Store)
 
 class Supplier(models.Model):
-    name = models.CharField
+    name = models.CharField(max_length=80)
 
 def product_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
@@ -45,7 +45,7 @@ class Product(models.Model):
 class StoreProduct(models.Model):
     product = models.ForeignKey(Product)
     store = models.ForeignKey(Store)
-    quantity = models.IntegerField
+    quantity = models.IntegerField()
 
 class OrderProduct(models.Model):
     product = models.ForeignKey(Product)

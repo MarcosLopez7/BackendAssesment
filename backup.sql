@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.6
--- Dumped by pg_dump version 9.5.6
+-- Dumped from database version 9.5.5
+-- Dumped by pg_dump version 9.5.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -402,6 +402,116 @@ ALTER SEQUENCE pos_employee_id_seq OWNED BY pos_employee.id;
 
 
 --
+-- Name: pos_order; Type: TABLE; Schema: public; Owner: django
+--
+
+CREATE TABLE pos_order (
+    id integer NOT NULL,
+    store_id integer NOT NULL,
+    date_hour timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE pos_order OWNER TO django;
+
+--
+-- Name: pos_order_id_seq; Type: SEQUENCE; Schema: public; Owner: django
+--
+
+CREATE SEQUENCE pos_order_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE pos_order_id_seq OWNER TO django;
+
+--
+-- Name: pos_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: django
+--
+
+ALTER SEQUENCE pos_order_id_seq OWNED BY pos_order.id;
+
+
+--
+-- Name: pos_orderproduct; Type: TABLE; Schema: public; Owner: django
+--
+
+CREATE TABLE pos_orderproduct (
+    id integer NOT NULL,
+    quantity integer NOT NULL,
+    delivery_date timestamp with time zone NOT NULL,
+    expiration_date timestamp with time zone NOT NULL,
+    order_id integer NOT NULL,
+    product_id integer NOT NULL
+);
+
+
+ALTER TABLE pos_orderproduct OWNER TO django;
+
+--
+-- Name: pos_orderproduct_id_seq; Type: SEQUENCE; Schema: public; Owner: django
+--
+
+CREATE SEQUENCE pos_orderproduct_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE pos_orderproduct_id_seq OWNER TO django;
+
+--
+-- Name: pos_orderproduct_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: django
+--
+
+ALTER SEQUENCE pos_orderproduct_id_seq OWNED BY pos_orderproduct.id;
+
+
+--
+-- Name: pos_product; Type: TABLE; Schema: public; Owner: django
+--
+
+CREATE TABLE pos_product (
+    id integer NOT NULL,
+    barcode integer NOT NULL,
+    name character varying(80) NOT NULL,
+    store_price numeric(20,2) NOT NULL,
+    supplier_price numeric(20,2) NOT NULL,
+    image character varying(100),
+    type character varying(80) NOT NULL,
+    supplier_id integer NOT NULL
+);
+
+
+ALTER TABLE pos_product OWNER TO django;
+
+--
+-- Name: pos_product_id_seq; Type: SEQUENCE; Schema: public; Owner: django
+--
+
+CREATE SEQUENCE pos_product_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE pos_product_id_seq OWNER TO django;
+
+--
+-- Name: pos_product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: django
+--
+
+ALTER SEQUENCE pos_product_id_seq OWNED BY pos_product.id;
+
+
+--
 -- Name: pos_store; Type: TABLE; Schema: public; Owner: django
 --
 
@@ -435,6 +545,74 @@ ALTER TABLE pos_store_id_seq OWNER TO django;
 --
 
 ALTER SEQUENCE pos_store_id_seq OWNED BY pos_store.id;
+
+
+--
+-- Name: pos_storeproduct; Type: TABLE; Schema: public; Owner: django
+--
+
+CREATE TABLE pos_storeproduct (
+    id integer NOT NULL,
+    product_id integer NOT NULL,
+    store_id integer NOT NULL,
+    quantity integer NOT NULL
+);
+
+
+ALTER TABLE pos_storeproduct OWNER TO django;
+
+--
+-- Name: pos_storeproduct_id_seq; Type: SEQUENCE; Schema: public; Owner: django
+--
+
+CREATE SEQUENCE pos_storeproduct_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE pos_storeproduct_id_seq OWNER TO django;
+
+--
+-- Name: pos_storeproduct_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: django
+--
+
+ALTER SEQUENCE pos_storeproduct_id_seq OWNED BY pos_storeproduct.id;
+
+
+--
+-- Name: pos_supplier; Type: TABLE; Schema: public; Owner: django
+--
+
+CREATE TABLE pos_supplier (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE pos_supplier OWNER TO django;
+
+--
+-- Name: pos_supplier_id_seq; Type: SEQUENCE; Schema: public; Owner: django
+--
+
+CREATE SEQUENCE pos_supplier_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE pos_supplier_id_seq OWNER TO django;
+
+--
+-- Name: pos_supplier_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: django
+--
+
+ALTER SEQUENCE pos_supplier_id_seq OWNED BY pos_supplier.id;
 
 
 --
@@ -511,7 +689,42 @@ ALTER TABLE ONLY pos_employee ALTER COLUMN id SET DEFAULT nextval('pos_employee_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: django
 --
 
+ALTER TABLE ONLY pos_order ALTER COLUMN id SET DEFAULT nextval('pos_order_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_orderproduct ALTER COLUMN id SET DEFAULT nextval('pos_orderproduct_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_product ALTER COLUMN id SET DEFAULT nextval('pos_product_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: django
+--
+
 ALTER TABLE ONLY pos_store ALTER COLUMN id SET DEFAULT nextval('pos_store_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_storeproduct ALTER COLUMN id SET DEFAULT nextval('pos_storeproduct_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_supplier ALTER COLUMN id SET DEFAULT nextval('pos_supplier_id_seq'::regclass);
 
 
 --
@@ -552,12 +765,12 @@ COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
 1	Can add log entry	1	add_logentry
 2	Can change log entry	1	change_logentry
 3	Can delete log entry	1	delete_logentry
-4	Can add permission	2	add_permission
-5	Can change permission	2	change_permission
-6	Can delete permission	2	delete_permission
-7	Can add user	3	add_user
-8	Can change user	3	change_user
-9	Can delete user	3	delete_user
+4	Can add user	2	add_user
+5	Can change user	2	change_user
+6	Can delete user	2	delete_user
+7	Can add permission	3	add_permission
+8	Can change permission	3	change_permission
+9	Can delete permission	3	delete_permission
 10	Can add group	4	add_group
 11	Can change group	4	change_group
 12	Can delete group	4	delete_group
@@ -567,12 +780,27 @@ COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
 16	Can add session	6	add_session
 17	Can change session	6	change_session
 18	Can delete session	6	delete_session
-19	Can add store	7	add_store
-20	Can change store	7	change_store
-21	Can delete store	7	delete_store
-22	Can add employee	8	add_employee
-23	Can change employee	8	change_employee
-24	Can delete employee	8	delete_employee
+19	Can add product	7	add_product
+20	Can change product	7	change_product
+21	Can delete product	7	delete_product
+22	Can add supplier	8	add_supplier
+23	Can change supplier	8	change_supplier
+24	Can delete supplier	8	delete_supplier
+25	Can add order product	9	add_orderproduct
+26	Can change order product	9	change_orderproduct
+27	Can delete order product	9	delete_orderproduct
+28	Can add employee	10	add_employee
+29	Can change employee	10	change_employee
+30	Can delete employee	10	delete_employee
+31	Can add store	11	add_store
+32	Can change store	11	change_store
+33	Can delete store	11	delete_store
+34	Can add store product	12	add_storeproduct
+35	Can change store product	12	change_storeproduct
+36	Can delete store product	12	delete_storeproduct
+37	Can add order	13	add_order
+38	Can change order	13	change_order
+39	Can delete order	13	delete_order
 \.
 
 
@@ -580,7 +808,7 @@ COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('auth_permission_id_seq', 24, true);
+SELECT pg_catalog.setval('auth_permission_id_seq', 39, true);
 
 
 --
@@ -588,8 +816,8 @@ SELECT pg_catalog.setval('auth_permission_id_seq', 24, true);
 --
 
 COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-3	gerente1	\N	f	gerente1	gerente	uno		t	t	2017-04-21 01:23:31.295919+00
-1	pbkdf2_sha256$36000$haGYyjj9RMQ2$PVwn9F/f3sENayHexYHG+L+e2wWnpwBlJE3sSb4fItk=	2017-04-21 23:06:35.83289+00	t	admin	Paco	Meralgo		t	t	2017-04-20 23:46:43+00
+1	pbkdf2_sha256$36000$vtGcmm7DqLWV$CNo1Kt4jJ9Ke81ElD6Kv9/kDlxuyeQz2Di07Q9V+/VU=	2017-04-22 12:36:32.906128-05	t	admin			admin@pos.com	t	t	2017-04-22 12:36:13.087699-05
+2	pbkdf2_sha256$36000$1DekhLsToTu5$CwhllnEyB2sKtS95p5lQKD/3dEcuNfH89n2htHdhX7M=	\N	f	gerente1	Gerente	1		t	t	2017-04-22 12:38:00-05
 \.
 
 
@@ -612,7 +840,7 @@ SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
 -- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('auth_user_id_seq', 4, true);
+SELECT pg_catalog.setval('auth_user_id_seq', 2, true);
 
 
 --
@@ -635,10 +863,15 @@ SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
 --
 
 COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
-1	2017-04-21 00:13:32.676991+00	1	Store object	1	[{"added": {}}]	7	1
-2	2017-04-21 00:14:48.722636+00	1	Santa Fe Prolongación Reforma	2	[]	7	1
-3	2017-04-21 01:24:55.597349+00	1	admin	2	[{"changed": {"fields": ["first_name", "last_name"]}}]	3	1
-4	2017-04-21 16:16:10.881252+00	2	Santa Fe Guillermo González	1	[{"added": {}}]	7	1
+1	2017-04-22 12:38:00.719126-05	2	gerente1	1	[{"added": {}}]	2	1
+2	2017-04-22 12:38:26.199995-05	2	gerente1	2	[{"changed": {"fields": ["first_name", "last_name", "is_staff"]}}]	2	1
+3	2017-04-22 12:39:33.828656-05	1	Reforma 23	1	[{"added": {}}]	11	1
+4	2017-04-22 12:39:36.861397-05	1	Gerente 1	1	[{"added": {}}]	10	1
+5	2017-04-22 12:39:56.780187-05	1	Order object	1	[{"added": {}}]	13	1
+6	2017-04-22 13:02:53.021508-05	1	Supplier object	1	[{"added": {}}]	8	1
+7	2017-04-22 13:03:41.748511-05	1	Product object	1	[{"added": {}}]	7	1
+8	2017-04-22 13:04:11.616634-05	1	OrderProduct object	1	[{"added": {}}]	9	1
+9	2017-04-22 13:08:21.363164-05	1	OrderProduct object	2	[]	9	1
 \.
 
 
@@ -646,7 +879,7 @@ COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, cha
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('django_admin_log_id_seq', 4, true);
+SELECT pg_catalog.setval('django_admin_log_id_seq', 9, true);
 
 
 --
@@ -655,13 +888,18 @@ SELECT pg_catalog.setval('django_admin_log_id_seq', 4, true);
 
 COPY django_content_type (id, app_label, model) FROM stdin;
 1	admin	logentry
-2	auth	permission
-3	auth	user
+2	auth	user
+3	auth	permission
 4	auth	group
 5	contenttypes	contenttype
 6	sessions	session
-7	pos	store
-8	pos	employee
+7	pos	product
+8	pos	supplier
+9	pos	orderproduct
+10	pos	employee
+11	pos	store
+12	pos	storeproduct
+13	pos	order
 \.
 
 
@@ -669,7 +907,7 @@ COPY django_content_type (id, app_label, model) FROM stdin;
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('django_content_type_id_seq', 8, true);
+SELECT pg_catalog.setval('django_content_type_id_seq', 13, true);
 
 
 --
@@ -677,20 +915,24 @@ SELECT pg_catalog.setval('django_content_type_id_seq', 8, true);
 --
 
 COPY django_migrations (id, app, name, applied) FROM stdin;
-1	contenttypes	0001_initial	2017-04-20 23:45:20.53726+00
-2	auth	0001_initial	2017-04-20 23:45:20.616+00
-3	admin	0001_initial	2017-04-20 23:45:20.652136+00
-4	admin	0002_logentry_remove_auto_add	2017-04-20 23:45:20.669998+00
-5	contenttypes	0002_remove_content_type_name	2017-04-20 23:45:20.705039+00
-6	auth	0002_alter_permission_name_max_length	2017-04-20 23:45:20.715283+00
-7	auth	0003_alter_user_email_max_length	2017-04-20 23:45:20.732264+00
-8	auth	0004_alter_user_username_opts	2017-04-20 23:45:20.746735+00
-9	auth	0005_alter_user_last_login_null	2017-04-20 23:45:20.762666+00
-10	auth	0006_require_contenttypes_0002	2017-04-20 23:45:20.766129+00
-11	auth	0007_alter_validators_add_error_messages	2017-04-20 23:45:20.785515+00
-12	auth	0008_alter_user_username_max_length	2017-04-20 23:45:20.806491+00
-13	sessions	0001_initial	2017-04-20 23:45:20.821264+00
-14	pos	0001_initial	2017-04-20 23:45:55.759137+00
+1	contenttypes	0001_initial	2017-04-22 12:34:23.102997-05
+2	auth	0001_initial	2017-04-22 12:34:23.381794-05
+3	admin	0001_initial	2017-04-22 12:34:23.465127-05
+4	admin	0002_logentry_remove_auto_add	2017-04-22 12:34:23.503179-05
+5	contenttypes	0002_remove_content_type_name	2017-04-22 12:34:23.555377-05
+6	auth	0002_alter_permission_name_max_length	2017-04-22 12:34:23.579568-05
+7	auth	0003_alter_user_email_max_length	2017-04-22 12:34:23.611312-05
+8	auth	0004_alter_user_username_opts	2017-04-22 12:34:23.636207-05
+9	auth	0005_alter_user_last_login_null	2017-04-22 12:34:23.666834-05
+10	auth	0006_require_contenttypes_0002	2017-04-22 12:34:23.675752-05
+11	auth	0007_alter_validators_add_error_messages	2017-04-22 12:34:23.702432-05
+12	auth	0008_alter_user_username_max_length	2017-04-22 12:34:23.750257-05
+13	pos	0001_initial	2017-04-22 12:34:23.861787-05
+14	pos	0002_auto_20170422_0352	2017-04-22 12:34:23.888355-05
+15	pos	0003_auto_20170422_0732	2017-04-22 12:34:24.166844-05
+16	pos	0004_auto_20170422_1657	2017-04-22 12:34:24.194124-05
+17	pos	0005_auto_20170422_1729	2017-04-22 12:34:24.341451-05
+18	sessions	0001_initial	2017-04-22 12:34:24.405692-05
 \.
 
 
@@ -698,7 +940,7 @@ COPY django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('django_migrations_id_seq', 14, true);
+SELECT pg_catalog.setval('django_migrations_id_seq', 18, true);
 
 
 --
@@ -706,21 +948,7 @@ SELECT pg_catalog.setval('django_migrations_id_seq', 14, true);
 --
 
 COPY django_session (session_key, session_data, expire_date) FROM stdin;
-ssqwy93ksiqr7ls0tfkk4to8jzz8ebzo	NmQ4MjczZmU0YjI3Njc3YTNjMmQyMGM4NzJiNGMyYTJjZmM3ZWM3NTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9oYXNoIjoiNmRhZTE2M2E4N2E4YWMwMWE0OGQ5YWExNTkyOWZjNjRmMGNkMmQ4MSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2017-05-05 00:09:42.925783+00
-boh09yoxt2vfigkp6yo7r7iexg0d12k9	NmQ4MjczZmU0YjI3Njc3YTNjMmQyMGM4NzJiNGMyYTJjZmM3ZWM3NTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9oYXNoIjoiNmRhZTE2M2E4N2E4YWMwMWE0OGQ5YWExNTkyOWZjNjRmMGNkMmQ4MSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2017-05-05 00:10:41.301271+00
-nsemats3t7i1uvxfirfmroq38otfdwll	ZjA4ZjU2ODlhY2QxYjZhODE2MjEyOTRiZjRiYjU5YmQ0OWUyZWRiYzp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2017-05-05 00:22:55.54416+00
-mo6bsnqp3m7a4myqvlfjxr38ge3gsvqb	ZjA4ZjU2ODlhY2QxYjZhODE2MjEyOTRiZjRiYjU5YmQ0OWUyZWRiYzp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2017-05-05 00:23:00.579014+00
-44a0qa4g9z1d1tdpqazi0l4fg4917n9y	ZjA4ZjU2ODlhY2QxYjZhODE2MjEyOTRiZjRiYjU5YmQ0OWUyZWRiYzp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2017-05-05 00:28:41.902098+00
-ei6mx2gzs8m8wz692e0q1vt58y3gd27s	ZjA4ZjU2ODlhY2QxYjZhODE2MjEyOTRiZjRiYjU5YmQ0OWUyZWRiYzp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2017-05-05 03:15:21.459101+00
-cp02uv1jy34ejxgm9o57rn8n8jgizo3p	ZjA4ZjU2ODlhY2QxYjZhODE2MjEyOTRiZjRiYjU5YmQ0OWUyZWRiYzp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2017-05-05 03:17:53.507082+00
-qn1490fos3bhldx3abwth60iadcgi3qf	ZjA4ZjU2ODlhY2QxYjZhODE2MjEyOTRiZjRiYjU5YmQ0OWUyZWRiYzp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2017-05-05 03:21:59.432604+00
-r4027ph3sg2vwcyszugy00b8d4ax6or8	MjA5ZGY4ZjQ3YWUzNjA0ODIwNjAwYTVhZjQxMDIxOTg4MTA1ZGEyMjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2hhc2giOiI2ZGFlMTYzYTg3YThhYzAxYTQ4ZDlhYTE1OTI5ZmM2NGYwY2QyZDgxIn0=	2017-05-05 15:54:10.716342+00
-ljenlbfvntb68xtnfmiyhbnylsnbnpi0	MTA3MDk2YWNhYzQ2OTU2NmY3NzRkNmU4YTVhNTI5MGYxYWI1MmQ4ZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2017-05-05 21:49:03.850977+00
-fwcw7t8q7tonsqyltegih8hd2t1rvze9	MTA3MDk2YWNhYzQ2OTU2NmY3NzRkNmU4YTVhNTI5MGYxYWI1MmQ4ZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2017-05-05 22:37:15.458331+00
-11984nb6vtkmv0qvvb9bvmks2dng5xp6	MTA3MDk2YWNhYzQ2OTU2NmY3NzRkNmU4YTVhNTI5MGYxYWI1MmQ4ZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2017-05-05 22:39:35.54057+00
-omksq8zsmvtriimcbug3u6kux6e54wyu	MTA3MDk2YWNhYzQ2OTU2NmY3NzRkNmU4YTVhNTI5MGYxYWI1MmQ4ZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2017-05-05 22:50:37.450048+00
-3o7w2qu0t767ktvl4rwpl87dn177g2w9	MTA3MDk2YWNhYzQ2OTU2NmY3NzRkNmU4YTVhNTI5MGYxYWI1MmQ4ZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2017-05-05 23:03:38.423317+00
-qkamhjslyibfcvmorgp1woh5y80v5yaq	MTA3MDk2YWNhYzQ2OTU2NmY3NzRkNmU4YTVhNTI5MGYxYWI1MmQ4ZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZkYWUxNjNhODdhOGFjMDFhNDhkOWFhMTU5MjlmYzY0ZjBjZDJkODEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2017-05-05 23:06:35.839495+00
+ha4rqypwmfrg6boirl8yjkgkoxgxx30s	MDJmMTgzNjlhNDllMWEyNWU1NDEyMTU1YzM2NjM5MzFlMGQ4Mzk4Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9oYXNoIjoiN2E4OGFiNTBmYzEwZjM2MDg5MGE4NDczMjE3ZWUzMTA4ZGMyZjBjMCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2017-05-06 12:36:32.915877-05
 \.
 
 
@@ -729,7 +957,7 @@ qkamhjslyibfcvmorgp1woh5y80v5yaq	MTA3MDk2YWNhYzQ2OTU2NmY3NzRkNmU4YTVhNTI5MGYxYWI
 --
 
 COPY pos_employee (id, store_id, user_id) FROM stdin;
-2	1	3
+1	1	2
 \.
 
 
@@ -737,7 +965,56 @@ COPY pos_employee (id, store_id, user_id) FROM stdin;
 -- Name: pos_employee_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('pos_employee_id_seq', 5, true);
+SELECT pg_catalog.setval('pos_employee_id_seq', 1, true);
+
+
+--
+-- Data for Name: pos_order; Type: TABLE DATA; Schema: public; Owner: django
+--
+
+COPY pos_order (id, store_id, date_hour) FROM stdin;
+1	1	2017-04-22 12:39:53-05
+2	1	2017-04-22 12:39:53-05
+\.
+
+
+--
+-- Name: pos_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
+--
+
+SELECT pg_catalog.setval('pos_order_id_seq', 2, true);
+
+
+--
+-- Data for Name: pos_orderproduct; Type: TABLE DATA; Schema: public; Owner: django
+--
+
+COPY pos_orderproduct (id, quantity, delivery_date, expiration_date, order_id, product_id) FROM stdin;
+1	5	2017-04-22 13:03:50-05	2017-04-30 13:04:05-05	1	1
+\.
+
+
+--
+-- Name: pos_orderproduct_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
+--
+
+SELECT pg_catalog.setval('pos_orderproduct_id_seq', 1, true);
+
+
+--
+-- Data for Name: pos_product; Type: TABLE DATA; Schema: public; Owner: django
+--
+
+COPY pos_product (id, barcode, name, store_price, supplier_price, image, type, supplier_id) FROM stdin;
+1	12345678	Leche Alpura	10.00	6.00	product_12345678	Bebida	1
+\.
+
+
+--
+-- Name: pos_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
+--
+
+SELECT pg_catalog.setval('pos_product_id_seq', 1, true);
 
 
 --
@@ -745,8 +1022,7 @@ SELECT pg_catalog.setval('pos_employee_id_seq', 5, true);
 --
 
 COPY pos_store (id, location, address, coordinate_x, coordinate_y) FROM stdin;
-1	Santa Fe Prolongación Reforma	Autopista México-Toluca 1236, Cuajimalpa de Morelos, Lomas de Santa Fe, Contadero, 05348 Ciudad de México, CDMX	19.35778300000000000000	-99.27528500000000000000
-2	Santa Fe Guillermo González	Guillermo González Camarena 1100, Álvaro Obregón, Lomas de Santa Fe, Zedec Sta Fé, 01210 Ciudad de México, CDMX	19.36561500000000000000	-99.26391900000000000000
+1	Reforma 23	Reforma 23, cp klsfjioqahwegjknwekg	19.99999990000000000000	93.99999999000000000000
 \.
 
 
@@ -754,7 +1030,39 @@ COPY pos_store (id, location, address, coordinate_x, coordinate_y) FROM stdin;
 -- Name: pos_store_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('pos_store_id_seq', 2, true);
+SELECT pg_catalog.setval('pos_store_id_seq', 1, true);
+
+
+--
+-- Data for Name: pos_storeproduct; Type: TABLE DATA; Schema: public; Owner: django
+--
+
+COPY pos_storeproduct (id, product_id, store_id, quantity) FROM stdin;
+4	1	1	1
+\.
+
+
+--
+-- Name: pos_storeproduct_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
+--
+
+SELECT pg_catalog.setval('pos_storeproduct_id_seq', 4, true);
+
+
+--
+-- Data for Name: pos_supplier; Type: TABLE DATA; Schema: public; Owner: django
+--
+
+COPY pos_supplier (id, name) FROM stdin;
+1	Alpura
+\.
+
+
+--
+-- Name: pos_supplier_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
+--
+
+SELECT pg_catalog.setval('pos_supplier_id_seq', 1, true);
 
 
 --
@@ -910,11 +1218,59 @@ ALTER TABLE ONLY pos_employee
 
 
 --
+-- Name: pos_order_pkey; Type: CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_order
+    ADD CONSTRAINT pos_order_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pos_orderproduct_pkey; Type: CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_orderproduct
+    ADD CONSTRAINT pos_orderproduct_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pos_product_barcode_key; Type: CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_product
+    ADD CONSTRAINT pos_product_barcode_key UNIQUE (barcode);
+
+
+--
+-- Name: pos_product_pkey; Type: CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_product
+    ADD CONSTRAINT pos_product_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: pos_store_pkey; Type: CONSTRAINT; Schema: public; Owner: django
 --
 
 ALTER TABLE ONLY pos_store
     ADD CONSTRAINT pos_store_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pos_storeproduct_pkey; Type: CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_storeproduct
+    ADD CONSTRAINT pos_storeproduct_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pos_supplier_pkey; Type: CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_supplier
+    ADD CONSTRAINT pos_supplier_pkey PRIMARY KEY (id);
 
 
 --
@@ -1016,6 +1372,48 @@ CREATE INDEX pos_employee_store_id_0f3cf191 ON pos_employee USING btree (store_i
 
 
 --
+-- Name: pos_order_store_id_1e40f363; Type: INDEX; Schema: public; Owner: django
+--
+
+CREATE INDEX pos_order_store_id_1e40f363 ON pos_order USING btree (store_id);
+
+
+--
+-- Name: pos_orderproduct_order_id_cbb7ec57; Type: INDEX; Schema: public; Owner: django
+--
+
+CREATE INDEX pos_orderproduct_order_id_cbb7ec57 ON pos_orderproduct USING btree (order_id);
+
+
+--
+-- Name: pos_orderproduct_product_id_e2f6069a; Type: INDEX; Schema: public; Owner: django
+--
+
+CREATE INDEX pos_orderproduct_product_id_e2f6069a ON pos_orderproduct USING btree (product_id);
+
+
+--
+-- Name: pos_product_supplier_id_4474ce5f; Type: INDEX; Schema: public; Owner: django
+--
+
+CREATE INDEX pos_product_supplier_id_4474ce5f ON pos_product USING btree (supplier_id);
+
+
+--
+-- Name: pos_storeproduct_product_id_83811eaa; Type: INDEX; Schema: public; Owner: django
+--
+
+CREATE INDEX pos_storeproduct_product_id_83811eaa ON pos_storeproduct USING btree (product_id);
+
+
+--
+-- Name: pos_storeproduct_store_id_2223b02e; Type: INDEX; Schema: public; Owner: django
+--
+
+CREATE INDEX pos_storeproduct_store_id_2223b02e ON pos_storeproduct USING btree (store_id);
+
+
+--
 -- Name: auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: django
 --
 
@@ -1101,6 +1499,54 @@ ALTER TABLE ONLY pos_employee
 
 ALTER TABLE ONLY pos_employee
     ADD CONSTRAINT pos_employee_user_id_ff769009_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_order_store_id_1e40f363_fk_pos_store_id; Type: FK CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_order
+    ADD CONSTRAINT pos_order_store_id_1e40f363_fk_pos_store_id FOREIGN KEY (store_id) REFERENCES pos_store(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_orderproduct_order_id_cbb7ec57_fk_pos_order_id; Type: FK CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_orderproduct
+    ADD CONSTRAINT pos_orderproduct_order_id_cbb7ec57_fk_pos_order_id FOREIGN KEY (order_id) REFERENCES pos_order(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_orderproduct_product_id_e2f6069a_fk_pos_product_id; Type: FK CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_orderproduct
+    ADD CONSTRAINT pos_orderproduct_product_id_e2f6069a_fk_pos_product_id FOREIGN KEY (product_id) REFERENCES pos_product(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_product_supplier_id_4474ce5f_fk_pos_supplier_id; Type: FK CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_product
+    ADD CONSTRAINT pos_product_supplier_id_4474ce5f_fk_pos_supplier_id FOREIGN KEY (supplier_id) REFERENCES pos_supplier(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_storeproduct_product_id_83811eaa_fk_pos_product_id; Type: FK CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_storeproduct
+    ADD CONSTRAINT pos_storeproduct_product_id_83811eaa_fk_pos_product_id FOREIGN KEY (product_id) REFERENCES pos_product(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_storeproduct_store_id_2223b02e_fk_pos_store_id; Type: FK CONSTRAINT; Schema: public; Owner: django
+--
+
+ALTER TABLE ONLY pos_storeproduct
+    ADD CONSTRAINT pos_storeproduct_store_id_2223b02e_fk_pos_store_id FOREIGN KEY (store_id) REFERENCES pos_store(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

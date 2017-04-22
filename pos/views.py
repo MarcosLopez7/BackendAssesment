@@ -9,8 +9,8 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 
-from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer
-from .models import Employee, Store, Order
+from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer, CreateStoreProductSerializer
+from .models import Employee, Store, Order, Product, OrderProduct, StoreProduct
 
 # Create your views here.
 class LoginView(APIView):
@@ -194,16 +194,53 @@ class RetrieveOrdersView(APIView):
 
         return Response(response, status=status.HTTP_202_ACCEPTED)
 
+class RetrieveOrderView(RetrieveAPIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    lookup_field = 'pk'
+
 class CreateOrderView(APIView):
     # authentication_classes = (SessionAuthentication, BasicAuthentication)
     # permission_classes = (IsAdminUser,)
 
     def post(self, request):
         serializer = CreateOrderSerializer(data=self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response('created', status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+class CreateStoreProductView(APIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+
+    def post(self, request):
+        barcode = self.request.data['barcode']
+        product = Product.objects.get(barcode=barcode)
+        order_param = self.request.data['order']
+        order = Order.objects.get(pk=order_param)
+
+        serializer = CreateStoreProductSerializer(data={
+            'store': self.request.data['store'],
+            'product': product.pk,
+            'quantity': 1
+        })
+
+        order_product = OrderProduct.objects.filter(product=product, order=order)
+        #order = order_product.order.id
+
+        if not order_product.exists():
+            return Response('not found', status=status.HTTP_404_NOT_FOUND)
 
         if serializer.is_valid():
-            instance = serializer.save()
-            instance.save()
+            order_product = serializer.save()
+            #order_product.product = product
+            order_product.save()
 
             return Response('created', status=status.HTTP_201_CREATED)
         else:
