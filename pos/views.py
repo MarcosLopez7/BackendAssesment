@@ -9,9 +9,10 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 
-from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer, CreateStoreProductSerializer, ProductSerializer, CreateProductSerializer
-from .models import Employee, Store, Order, Product, OrderProduct, StoreProduct
+from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer, CreateStoreProductSerializer, ProductSerializer, CreateProductSerializer, CreateSaleSerializer, CreateSaleProductSerializer
+from .models import Employee, Store, Order, Product, OrderProduct, StoreProduct, Sale, SaleProduct, Client
 
+from decimal import Decimal
 # Create your views here.
 class LoginView(APIView):
 
@@ -337,3 +338,42 @@ class DeleteProductView(APIView):
         product.delete()
 
         return Response('deleted', status=status.HTTP_202_ACCEPTED)
+
+
+class CreateSaleView(APIView):
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAdminUser,)
+
+    def post(self, request):
+        serializer = CreateSaleSerializer(data={
+            'store': self.request.data['store'],
+            'amount': 0.00
+        })
+        if serializer.is_valid():
+            sale = serializer.save()
+        else:
+            return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        amount = 0.00
+        for product in self.request.data['products']:
+            barcode = product['barcode']
+            prod = Product.objects.get(barcode=barcode)
+            quantity = product['quantity']
+            saleproduct_serializer = CreateSaleProductSerializer(data = {
+                'product': prod.pk,
+                'quantity': quantity,
+                'sale' : sale.pk
+            })
+            sale.amount += Decimal(prod.store_price) * quantity
+            if saleproduct_serializer.is_valid():
+                saleproduct_serializer.save()
+            else:
+                return Response(saleproduct_serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+        sale.save(update_fields=['amount'])
+        print (sale.date)
+        if Sale.objects.get(pk=sale.id).amount == sale.amount:
+            return Response('created', status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

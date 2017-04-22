@@ -1,4 +1,4 @@
-from .models import Employee, Store, Order, StoreProduct, Product, OrderProduct
+from .models import Employee, Store, Order, StoreProduct, Product, OrderProduct, Sale, SaleProduct, Client
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, ValidationError, Serializer, RelatedField
 
@@ -108,3 +108,13 @@ class CreateProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = ['barcode', 'name', 'store_price', 'supplier_price', 'image', 'supplier', 'type']
+
+class CreateSaleSerializer(ModelSerializer):
+    class Meta:
+        model = Sale
+        fields = ['store', 'amount', 'client']
+
+class CreateSaleProductSerializer(ModelSerializer):
+    class Meta:
+        model = SaleProduct
+        fields = ['product', 'sale', 'quantity']

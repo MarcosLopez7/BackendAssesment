@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-from .views import LoginView, AdminView, CreateEmployeeStoreView, CreateUserEmployeeView, RetrieveEmployeeView, EditUserEmployeeView, EmployeeToEditView, DeleteUserEmployeeView, RetrieveStoresView, RetrieveStoreView, EditStoreView, CreateStoreView, DeleteStoreView, RetrieveOrdersView, RetrieveOrderView, EditOrderView, DeleteOrderView, CreateOrderView, CreateStoreProductView, CreateProductView, RetrieveProductView, RetrieveProductsView, CreateProductView, EditProductView, DeleteProductView
+from .views import LoginView, AdminView, CreateEmployeeStoreView, CreateUserEmployeeView, RetrieveEmployeeView, EditUserEmployeeView, EmployeeToEditView, DeleteUserEmployeeView, RetrieveStoresView, RetrieveStoreView, EditStoreView, CreateStoreView, DeleteStoreView, RetrieveOrdersView, RetrieveOrderView, EditOrderView, DeleteOrderView, CreateOrderView, CreateStoreProductView, CreateProductView, RetrieveProductView, RetrieveProductsView, CreateProductView, EditProductView, DeleteProductView, CreateSaleView
 
 urlpatterns = [
     url('^login/$', LoginView.as_view(), name='login'),
@@ -26,5 +26,6 @@ urlpatterns = [
     url('^products/(?P<pk>\d+)/edit/$', EditProductView.as_view(), name='edit-product'),
     url('^products/(?P<pk>\d+)/delete/$', DeleteProductView.as_view(), name='delete-product'),
     url('^inventory/create/$', CreateStoreProductView.as_view(), name='create-inventory'),
+    url('^sales/create/$', CreateSaleView.as_view(), name='create-sale'),
 
 ]
