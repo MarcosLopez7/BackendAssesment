@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc4625ba-3ad4-4ad9-a5bc-dd6ea8fa82f3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/django_project/settings.py" afterPath="$PROJECT_DIR$/django_project/settings.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dependencias.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,11 +21,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/django_project/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="27" column="45" lean-forward="false" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
+            <state relative-caret-position="576">
+              <caret line="86" column="5" lean-forward="true" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dependencias.txt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dependencias.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="47" lean-forward="true" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -34,8 +44,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pos/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+            <state relative-caret-position="288">
+              <caret line="17" column="15" lean-forward="true" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -44,22 +54,12 @@
       <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pos/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+            <state relative-caret-position="442">
+              <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <marker date="1492821505893" expanded="true" signature="0:5" ph="import ..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pos/admin.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -151,6 +151,7 @@
         <option value="$PROJECT_DIR$/pos/views.py" />
         <option value="$PROJECT_DIR$/pos/urls.py" />
         <option value="$PROJECT_DIR$/django_project/settings.py" />
+        <option value="$PROJECT_DIR$/dependencias.txt" />
       </list>
     </option>
   </component>
@@ -194,34 +195,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BackendAssesment" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BackendAssesment" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pos" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BackendAssesment" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BackendAssesment" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="django_project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -246,12 +219,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/django_project/settings.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/migrations/0001_initial.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/models.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/serializers.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/urls.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/views.py</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -259,18 +226,7 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/django_project/__pycache__/__init__.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/django_project/__pycache__/settings.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/django_project/__pycache__/urls.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/django_project/__pycache__/wsgi.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/__pycache__/__init__.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/__pycache__/admin.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/__pycache__/models.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/__pycache__/serializers.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/__pycache__/urls.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/__pycache__/views.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/migrations/__pycache__/0001_initial.cpython-35.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/migrations/__pycache__/__init__.cpython-35.pyc</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/backup.sql</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -278,10 +234,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/migrations/0001_initial.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/migrations/0002_store_location.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/migrations/0002_store_location.pyc</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/pos/migrations/__init__.pyc</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Restored" />
@@ -654,7 +606,14 @@
       <option name="project" value="LOCAL" />
       <updated>1492558499831</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Preparando el scanner terminal">
+      <created>1492823138104</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1492823138104</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -690,7 +649,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="implementando el login" />
     <MESSAGE value="implementando la creación de usuarios" />
-    <option name="LAST_COMMIT_MESSAGE" value="implementando la creación de usuarios" />
+    <MESSAGE value="Preparando el scanner terminal" />
+    <option name="LAST_COMMIT_MESSAGE" value="Preparando el scanner terminal" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -818,25 +778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pos/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pos/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <marker date="1492821505893" expanded="true" signature="0:5" ph="import ..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pos/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
@@ -883,10 +824,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pos/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1492821505893" expanded="true" signature="0:5" ph="import ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pos/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="17" column="15" lean-forward="true" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/django_project/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="27" column="45" lean-forward="false" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
+        <state relative-caret-position="576">
+          <caret line="86" column="5" lean-forward="true" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencias.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="47" lean-forward="true" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
           <folding />
         </state>
       </provider>
