@@ -77,7 +77,7 @@ class Client(models.Model):
         return "id:{0}, Gender:{1}, Age:{2}".format(self.pk, self.gender, self.age)
 
 class Sale(models.Model):
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     store = models.ForeignKey(Store)
     client = models.ForeignKey(Client, null=True)
