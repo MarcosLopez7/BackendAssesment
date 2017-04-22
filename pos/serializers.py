@@ -1,4 +1,4 @@
-from .models import Employee, Store
+from .models import Employee, Store, Order
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, ValidationError, Serializer
 
@@ -10,17 +10,17 @@ class UserSerializer(ModelSerializer):
 class EmployeeUserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['pk', 'first_name', 'last_name', 'is_staff'] 
+        fields = ['pk', 'first_name', 'last_name', 'is_staff']
 
 class EmployeeUserRetrieveSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'is_staff', 'is_active'] 
+        fields = ['username', 'first_name', 'last_name', 'is_staff', 'is_active']
 
 class UserEditSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['pk', 'username', 'password', 'first_name', 'last_name', 'is_staff', 'is_active'] 
+        fields = ['pk', 'username', 'password', 'first_name', 'last_name', 'is_staff', 'is_active']
 
 class EmployeeStoreSerializer(ModelSerializer):
     class Meta:
@@ -29,7 +29,7 @@ class EmployeeStoreSerializer(ModelSerializer):
 
 class EmployeeSerializer(ModelSerializer):
     user = EmployeeUserSerializer()
-    store = EmployeeStoreSerializer() 
+    store = EmployeeStoreSerializer()
 
     class Meta:
         model = Employee
@@ -50,8 +50,8 @@ class CreateUserSerializer(ModelSerializer):
         return data
 
 class EmployeeRetrieveSerializer(ModelSerializer):
-   user = EmployeeUserRetrieveSerializer()  
-   store = EmployeeStoreSerializer() 
+   user = EmployeeUserRetrieveSerializer()
+   store = EmployeeStoreSerializer()
 
    class Meta:
        model = Employee
@@ -60,7 +60,27 @@ class EmployeeRetrieveSerializer(ModelSerializer):
 
 class EmployeeEditSerializer(Serializer):
    user = UserEditSerializer()
-   store = EmployeeStoreSerializer() 
+   store = EmployeeStoreSerializer()
    class Meta:
        model = Employee
        fields = ['pk', 'user', 'store']
+
+class StoreSerializer(ModelSerializer):
+    class Meta:
+        model = Store
+        fields = ['pk', 'location', 'address', 'coordinate_x', 'coordinate_y']
+
+class CreateStoreSerializer(ModelSerializer):
+    class Meta:
+        model = Store
+        fields = ['location', 'address', 'coordinate_x', 'coordinate_y']
+
+class OrderSerializer(ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['pk', 'date_hour', 'store']
+
+class CreateOrderSerializer(ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['date_hour', 'store']
