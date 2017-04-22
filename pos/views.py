@@ -58,6 +58,7 @@ class CreateUserEmployeeView(APIView):
 
         if serializer.is_valid():
             instance = serializer.save()
+            instance.set_password(self.request.data['password'])
             instance.save()
 
             store_location = self.request.data['store']
