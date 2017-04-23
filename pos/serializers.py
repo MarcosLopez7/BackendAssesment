@@ -1,4 +1,4 @@
-from .models import Employee, Store, Order, StoreProduct, Product, OrderProduct, Sale, SaleProduct
+from .models import Employee, Store, Order, StoreProduct, Product, OrderProduct, Sale, SaleProduct, Supplier
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, ValidationError, Serializer, RelatedField, PrimaryKeyRelatedField
 
@@ -123,3 +123,9 @@ class StoreProductSerializer(ModelSerializer):
     class Meta:
         model = StoreProduct
         fields = ['pk','product','store', 'quantity']
+
+class SupplierSerializer(ModelSerializer):
+    #store_id = PrimaryKeyRelatedField(queryset=Store.objects.all())
+    class Meta:
+        model = Supplier
+        fields = ['pk', 'name']
