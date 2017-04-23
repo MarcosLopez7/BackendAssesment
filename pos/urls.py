@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-from .views import LoginView, AdminView, CreateEmployeeStoreView, CreateUserEmployeeView, RetrieveEmployeeView, EditUserEmployeeView, EmployeeToEditView, DeleteUserEmployeeView, RetrieveStoresView, RetrieveStoreView, EditStoreView, CreateStoreView, DeleteStoreView, RetrieveOrdersView, RetrieveOrderView, EditOrderView, DeleteOrderView, CreateOrderView, CreateStoreProductView, CreateProductView, RetrieveProductView, RetrieveProductsView, CreateProductView, EditProductView, DeleteProductView, CreateSaleView, RetrieveInventoryView, StatsProductsHourView
+from .views import LoginView, AdminView, CreateEmployeeStoreView, CreateUserEmployeeView, RetrieveEmployeeView, EditUserEmployeeView, EmployeeToEditView, DeleteUserEmployeeView, RetrieveStoresView, RetrieveStoreView, EditStoreView, CreateStoreView, DeleteStoreView, RetrieveOrdersView, RetrieveOrderView, EditOrderView, DeleteOrderView, CreateOrderView, CreateStoreProductView, CreateProductView, RetrieveProductView, RetrieveProductsView, CreateProductView, EditProductView, DeleteProductView, CreateSaleView, RetrieveInventoryView, StatsProductsHourView, RetrieveInventoriesView
 
 urlpatterns = [
     url('^login/$', LoginView.as_view(), name='login'),
@@ -16,6 +16,7 @@ urlpatterns = [
     url('^stores/(?P<pk>\d+)/edit/$', EditStoreView.as_view(), name='edit-store'),
     url('^stores/(?P<pk>\d+)/delete/$', DeleteStoreView.as_view(), name='delete-store'),
     url('^stores/(?P<pk_store>\d+)/inventory/(?P<barcode>\d+)/$', RetrieveInventoryView.as_view(), name='inventory-show'),
+    url('^stores/(?P<pk_store>\d+)/inventory/$', RetrieveInventoriesView.as_view(), name='inventory'),
     url('^orders/$', RetrieveOrdersView.as_view(), name='orders'),
     url('^orders/new/$', CreateOrderView.as_view(), name='create-order'),
     url('^orders/(?P<pk>\d+)/$', RetrieveOrderView.as_view(), name='show-order'),

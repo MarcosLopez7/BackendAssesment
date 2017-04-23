@@ -1,4 +1,4 @@
-from .models import Employee, Store, Order, StoreProduct, Product, OrderProduct, Sale, SaleProduct, Supplier
+from .models import Employee, Store, Order, StoreProduct, Product, OrderProduct, Sale, SaleProduct
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, ValidationError, Serializer, RelatedField, PrimaryKeyRelatedField
 
@@ -91,12 +91,6 @@ class BarcodeProductSerializer(ModelSerializer):
         model = Product
         fields = ['barcode']
 
-class CreateStoreProductSerializer(ModelSerializer):
-    #product = BarcodeProductSerializer()
-    class Meta:
-        model = StoreProduct
-        fields = ['store', 'product', 'quantity']
-
 class ProductSerializer(ModelSerializer):
     #store_id = PrimaryKeyRelatedField(queryset=Store.objects.all())
     class Meta:
@@ -109,6 +103,23 @@ class CreateProductSerializer(ModelSerializer):
         model = Product
         fields = ['barcode', 'name', 'store_price', 'supplier_price', 'image', 'supplier', 'type']
 
+class StoreProductSerializer(ModelSerializer):
+    class Meta:
+        model = StoreProduct
+        fields = ['pk','product','store', 'quantity']
+
+class ShowStoreProductSerializer(ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    class Meta:
+        model = StoreProduct
+        fields = ['product', 'quantity']
+class CreateStoreProductSerializer(ModelSerializer):
+    #product = BarcodeProductSerializer()
+    class Meta:
+        model = StoreProduct
+        fields = ['store', 'product', 'quantity']
+
+
 class CreateSaleSerializer(ModelSerializer):
     class Meta:
         model = Sale
@@ -119,13 +130,9 @@ class CreateSaleProductSerializer(ModelSerializer):
         model = SaleProduct
         fields = ['product', 'sale', 'quantity']
 
-class StoreProductSerializer(ModelSerializer):
-    class Meta:
-        model = StoreProduct
-        fields = ['pk','product','store', 'quantity']
 
 class SupplierSerializer(ModelSerializer):
     #store_id = PrimaryKeyRelatedField(queryset=Store.objects.all())
     class Meta:
-        model = Supplier
-        fields = ['pk', 'name']
+        model = Product
+        fields = ['pk', 'barcode', 'name', 'store_price', 'supplier_price', 'image', 'supplier', 'type']

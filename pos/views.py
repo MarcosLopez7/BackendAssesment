@@ -10,7 +10,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 
-from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer, CreateStoreProductSerializer, ProductSerializer, CreateProductSerializer, CreateSaleSerializer, CreateSaleProductSerializer, StoreProductSerializer
+from .serializers import UserSerializer, EmployeeSerializer, EmployeeStoreSerializer, CreateUserSerializer, EmployeeRetrieveSerializer, EmployeeEditSerializer, UserEditSerializer, EmployeeStoreSerializer, StoreSerializer, CreateStoreSerializer, OrderSerializer, CreateOrderSerializer, CreateStoreProductSerializer, ProductSerializer, CreateProductSerializer, CreateSaleSerializer, CreateSaleProductSerializer, StoreProductSerializer, ShowStoreProductSerializer
 from .models import Employee, Store, Order, Product, OrderProduct, StoreProduct, Sale, SaleProduct
 
 from decimal import Decimal
@@ -389,6 +389,13 @@ class CreateSaleView(APIView):
             return Response('created', status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+class RetrieveInventoriesView(APIView):
+    def get(self, request, pk_store):
+        store_products = StoreProduct.objects.filter(store=pk_store)
+        store_product_serializer = ShowStoreProductSerializer(store_products, many=True)
+        response = store_product_serializer.data
+        return Response(response, status=status.HTTP_202_ACCEPTED)
 
 class RetrieveInventoryView(APIView):
     # authentication_classes = (SessionAuthentication, BasicAuthentication)
