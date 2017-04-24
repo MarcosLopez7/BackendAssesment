@@ -275,7 +275,7 @@ class CreateStoreProductView(APIView):
         if serializer.is_valid():
             exists = StoreProduct.objects.filter(product=product, store=self.request.data['store']).first()
             if exists:
-                exists.quantity+=1
+                exists.quantity+=order_product.first().quantity
                 exists.save(update_fields=['quantity'])
             else:
                 order_product = serializer.save()
