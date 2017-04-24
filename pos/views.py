@@ -438,6 +438,7 @@ class StatsProductsHourView(APIView):
         num = 10
         product = None
         nosale = False
+        opt = 'max'
         if 'step' in self.request.GET:
             if self.request.GET['step'] == 'day':
                 step = timedelta(days=1)
@@ -458,6 +459,7 @@ class StatsProductsHourView(APIView):
             temp = SaleProduct.objects.values('product').filter(sale__in=sales)
             if 'opt' in self.request.GET:
                 if self.request.GET['opt'] == 'min':
+                    opt = 'min'
                     temp = temp.annotate(sumQ=Sum('quantity')).aggregate(Min('sumQ'))['sumQ__min']
 
                 elif self.request.GET['opt'] == 'max':
@@ -477,15 +479,15 @@ class StatsProductsHourView(APIView):
                     nosale = True
 
             if res.exists():
-                if (self.request.GET['opt'] == 'max') or (self.request.GET['opt'] == 'min' and nosale == False):
-                    product_id = res.values_list('product', flat=True).first()
-                    quantity = res.values_list('sumQ', flat=True).first()
-                    product = Product.objects.get(pk=product_id)
+                if (opt == 'max') or (opt == 'min' and nosale == False):
+                    product_id = res.values_list('product', flat=True)
+                    quantity = res.values_list('sumQ', flat=True)
+                    product = Product.objects.get(pk=product_id[0])
                 serializer = ProductSerializer(product)
                 product_json = serializer.data
                 product_json['start_date'] = start
                 product_json['end_date'] = end
-                product_json['quantity'] = quantity
+                product_json['quantity'] = quantity[0]
                 response['products'].append(product_json)
                 nosale = False
             elif nosale:
