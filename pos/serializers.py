@@ -111,9 +111,10 @@ class CreateProductSerializer(ModelSerializer):
         fields = ['barcode', 'name', 'store_price', 'supplier_price', 'image', 'supplier', 'type']
 
 class ProductStoreToSellSerializer(ModelSerializer):
+    supplier = SupplierSerializer()
     class Meta:
         model = Product
-        fields = ['barcode', 'name', 'store_price']
+        fields = ['barcode', 'name', 'store_price', 'supplier', 'type']
 
 
 class StoreProductSerializer(ModelSerializer):
