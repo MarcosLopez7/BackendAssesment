@@ -114,6 +114,8 @@ class EditUserEmployeeView(APIView):
             store = Store.objects.get(location=store_location)
 
             instance_employee.user = serializer.save()
+            instance_employee.user.set_password(self.request.data['password'])
+            instance_employee.user.save()
             instance_employee.store = store
             instance_employee.save()
 
