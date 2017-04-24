@@ -462,7 +462,7 @@ class StatsProductsHourView(APIView):
                     nosale = True
 
             if res.exists():
-                if not nosale:
+                if (self.request.GET['opt'] == 'max') or (self.request.GET['opt'] == 'min' and nosale == False):
                     product_id = res.values_list('product', flat=True).first()
                     quantity = res.values_list('sumQ', flat=True).first()
                     product = Product.objects.get(pk=product_id)
