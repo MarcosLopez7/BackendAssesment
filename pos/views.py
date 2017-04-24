@@ -259,33 +259,25 @@ class CreateStoreProductView(APIView):
         order_param = self.request.data['order']
         order = Order.objects.get(pk=order_param)
 
-        serializer = CreateStoreProductSerializer(data={
-            'store': self.request.data['store'],
-            'product': product.pk,
-            'quantity': 1
-        })
-
-
         order_product = OrderProduct.objects.filter(product=product, order=order)
-        #order = order_product.order.id
-
         if not order_product.exists():
             return Response('not found', status=status.HTTP_404_NOT_FOUND)
 
-        if serializer.is_valid():
-            exists = StoreProduct.objects.filter(product=product, store=self.request.data['store']).first()
-            if exists:
-                exists.quantity+=order_product.first().quantity
-                exists.save(update_fields=['quantity'])
-            else:
-                order_product = serializer.save()
-            #order_product.product = product
-
-            #order_product.save()
-
-            return Response('created', status=status.HTTP_201_CREATED)
+        exists = StoreProduct.objects.filter(product=product, store=self.request.data['store']).first()
+        if exists:
+            exists.quantity+=order_product.first().quantity
+            exists.save(update_fields=['quantity'])
         else:
-            return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+            serializer = CreateStoreProductSerializer(data={
+                'store': self.request.data['store'],
+                'product': product.pk,
+                'quantity': order_product.first().quantity
+            })
+            if serializer.is_valid():
+                serializer.save()
+
+
+        return Response('created', status=status.HTTP_201_CREATED)
 
 class RetrieveProductsView(APIView):
     def get(self, request):
