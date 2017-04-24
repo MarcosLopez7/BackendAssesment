@@ -385,13 +385,14 @@ class CreateSaleView(APIView):
             if store_products.quantity >= quantity:
                 store_products.quantity -= quantity
                 store_products.save()
+                sale.amount += Decimal(prod.store_price) * quantity
+                if saleproduct_serializer.is_valid():
+                    saleproduct_serializer.save()
+                else:
+                    return Response(saleproduct_serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
             else:
                 return Response('invalid quantity', status=status.HTTP_409_CONFLICT)
-            sale.amount += Decimal(prod.store_price) * quantity
-            if saleproduct_serializer.is_valid():
-                saleproduct_serializer.save()
-            else:
-                return Response(saleproduct_serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
 
         sale.save(update_fields=['amount'])
