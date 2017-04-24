@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.contrib.auth import login, logout, authenticate
-from django.db.models import Sum, Max
+from django.db.models import Sum, Max, Min
 
 from rest_framework.views import APIView
 from rest_framework import status
@@ -418,7 +418,11 @@ class StatsProductsHourView(APIView):
     def get(self, request):
 
         step = timedelta(hours=1)
-
+        response = {}
+        response['products'] = []
+        num = 10
+        product = None
+        nosale = False
         if 'step' in self.request.GET:
             if self.request.GET['step'] == 'day':
                 step = timedelta(days=1)
@@ -427,31 +431,56 @@ class StatsProductsHourView(APIView):
             if self.request.GET['step'] == 'year':
                 step = timedelta(days=365)
 
-        num = 10
         if 'num' in self.request.GET:
             if self.request.GET['num'].isdigit():
                 num = int(self.request.GET['num'])
 
-        response = {}
-        response['products'] = []
         for i in range(num):
             end = pytz.utc.localize(datetime.utcnow() ) - (i * step)
             start = pytz.utc.localize( datetime.utcnow() ) - ((i+1) * step)
             sales = Sale.objects.filter(date__range=(start, end))
 
-            test = SaleProduct.objects.values('product').filter(sale__in=sales).annotate(sumQ=Sum('quantity')).aggregate(Max('sumQ'))['sumQ__max']
-            res = SaleProduct.objects.values('product').filter(sale__in=sales).annotate(sumQ=Sum('quantity')).filter(sumQ=test)
+            temp = SaleProduct.objects.values('product').filter(sale__in=sales)
+            if 'opt' in self.request.GET:
+                if self.request.GET['opt'] == 'min':
+                    temp = temp.annotate(sumQ=Sum('quantity')).aggregate(Min('sumQ'))['sumQ__min']
+
+                elif self.request.GET['opt'] == 'max':
+                    temp = temp.annotate(sumQ=Sum('quantity')).aggregate(Max('sumQ'))['sumQ__max']
+                else:
+                    temp = temp.annotate(sumQ=Sum('quantity')).aggregate(Max('sumQ'))['sumQ__max']
+            else:
+                temp = temp.annotate(sumQ=Sum('quantity')).aggregate(Max('sumQ'))['sumQ__max']
+            res = SaleProduct.objects.values('product').filter(sale__in=sales).annotate(sumQ=Sum('quantity')).filter(sumQ=temp)
+
+            products = Product.objects.all()
+            for product in products:
+                query = sales.filter(saleproduct__product=product)
+                if len(query) == 0:
+                    product = product
+                    quantity = 0
+                    nosale = True
 
             if res.exists():
-                product_id = res.values_list('product', flat=True).first()
-                quantity = res.values_list('sumQ', flat=True).first()
-                product = Product.objects.get(pk=product_id)
+                if not nosale:
+                    product_id = res.values_list('product', flat=True).first()
+                    quantity = res.values_list('sumQ', flat=True).first()
+                    product = Product.objects.get(pk=product_id)
                 serializer = ProductSerializer(product)
                 product_json = serializer.data
                 product_json['start_date'] = start
                 product_json['end_date'] = end
                 product_json['quantity'] = quantity
                 response['products'].append(product_json)
+                nosale = False
+            elif nosale:
+                serializer = ProductSerializer(product)
+                product_json = serializer.data
+                product_json['start_date'] = start
+                product_json['end_date'] = end
+                product_json['quantity'] = quantity
+                response['products'].append(product_json)
+                nosale = False
 
                 #response = product_serializer.data
             #response['products'] = ProductSerializer
