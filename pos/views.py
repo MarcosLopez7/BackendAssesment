@@ -300,7 +300,7 @@ class RetrieveProductView(RetrieveAPIView):
     # permission_classes = (IsAdminUser,)
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    lookup_field = 'pk'
+    lookup_field = 'barcode'
 
 
 class CreateProductView(APIView):
