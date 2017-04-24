@@ -351,15 +351,20 @@ class CreateSaleView(APIView):
     # permission_classes = (IsAdminUser,)
 
     def post(self, request):
+        gender = 'null'
+        age = 0
+        if 'gender' in self.request.data:
+            gender = self.request.data['gender']
+        if 'age' in self.request.data:
+            age = self.request.data['age']
+            
         serializer = CreateSaleSerializer(data={
             'store': self.request.data['store'],
             'amount': 0.00,
+            'gender': gender,
+            'age': age
         })
 
-        if 'gender' in self.request.data:
-            serializer['client_gender'] = self.request.data['gender']
-        if 'age' in self.request.data:
-            serializer['client_age'] = self.request.data['age']
 
         if serializer.is_valid():
             sale = serializer.save()
